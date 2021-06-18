@@ -15,13 +15,12 @@ public class DiscountController {
     private final RabbitTemplate rabbitTemplate;
  @Autowired
     public DiscountController(DiscountService discountService, RabbitTemplate rabbitTemplate) {
-        this.discountService = discountService;
+        gitthis.discountService = discountService;
      this.rabbitTemplate = rabbitTemplate;
  }
     @PostMapping
-    String findDiscount(){
+    void findDiscount(){
        String discounts = discountService.getDiscounts();
         rabbitTemplate.convertAndSend("Discounts",discounts);
-        return discounts;
     }
 }
