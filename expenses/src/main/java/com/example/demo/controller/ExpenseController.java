@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import com.example.demo.controller.dto.ExpenseResponse;
 import com.example.demo.model.Expense;
 import com.example.demo.service.ExpenseService;
 import org.springframework.http.ResponseEntity;
@@ -17,20 +18,22 @@ public class ExpenseController {
         this.expenseService = expenseService;
     }
     @GetMapping
-    List<Expense> getExpenses(){
+    List<ExpenseResponse> getExpenses(){
         return expenseService.findAll();
     }
     @GetMapping("/{id}")
-    Expense getExpense(@RequestParam Long id){
+    ExpenseResponse getExpense(@RequestParam Long id){
         return expenseService.findById(id);
     }
     @DeleteMapping("/{id}")
     ResponseEntity<?> deleteExpense(@RequestParam Long id){
-        return expenseService.deleteById(id);
+        expenseService.deleteById(id);
+        return ResponseEntity.ok().build();
     }
     @PostMapping
     ResponseEntity<?> addExpense(@RequestBody @Valid Expense expense){
-        return expenseService.addExpense(expense);
+        expenseService.addExpense(expense);
+        return ResponseEntity.ok().build();
     }
     @DeleteMapping
     ResponseEntity<?> deleteAll(){

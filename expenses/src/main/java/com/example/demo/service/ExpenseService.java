@@ -1,14 +1,15 @@
 package com.example.demo.service;
 
+import com.example.demo.controller.dto.ExpenseResponse;
 import com.example.demo.model.Expense;
 import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 
 public interface ExpenseService {
-   List<Expense> findAll();
-   Expense findById(Long id);
-   ResponseEntity<?> deleteById(Long id);
+   List<ExpenseResponse> findAll();
+   ExpenseResponse findById(Long id);
+   void deleteById(Long id);
    void deleteAll();
-   ResponseEntity<?> addExpense(Expense expense);
+   void addExpense(Expense expense);
 }

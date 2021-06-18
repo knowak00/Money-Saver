@@ -1,7 +1,6 @@
 package com.example.demo.model;
 
-import lombok.Data;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.beans.factory.annotation.Required;
 
 import javax.persistence.*;
@@ -11,6 +10,9 @@ import java.util.List;
 @Entity
 @Data
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 public class Expense {
     @Id
     @GeneratedValue

@@ -1,12 +1,14 @@
 package com.example.demo.service;
 
+import com.example.demo.controller.dto.ExpenseResponse;
 import com.example.demo.exception.ExpenseError;
 import com.example.demo.exception.ExpenseException;
-import com.example.demo.repository.ExpenseRepository;
 import com.example.demo.model.Expense;
+import com.example.demo.repository.ExpenseRepository;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -18,19 +20,34 @@ public class ExpenseServiceImpl implements ExpenseService {
     }
 
     @Override
-    public List<Expense> findAll() {
-        return expenseRepository.findAll();
+    public List<ExpenseResponse> findAll() {
+        List<Expense> expenses = expenseRepository.findAll();
+        List<ExpenseResponse> response = new ArrayList<>();
+        for(Expense e :expenses){
+            response.add(ExpenseResponse
+                    .builder()
+                    .id(e.getId())
+                    .title(e.getTitle())
+                    .description(e.getDescription())
+                    .sum(e.getSum()).build());
+        }
+        return response;
     }
 
     @Override
-    public Expense findById(Long id) {
-        return expenseRepository.findById(id).orElseThrow(() -> new ExpenseException(ExpenseError.EXPENSE_NOT_FOUND));
+    public ExpenseResponse findById(Long id) {
+        Expense expense = expenseRepository.findById(id).orElseThrow(() -> new ExpenseException(ExpenseError.EXPENSE_NOT_FOUND));
+       return  ExpenseResponse
+               .builder()
+               .id(expense.getId())
+               .title(expense.getTitle())
+               .description(expense.getDescription())
+               .sum(expense.getSum()).build();
     }
 
     @Override
-    public ResponseEntity<?> deleteById(Long id) {
+    public void deleteById(Long id) {
         expenseRepository.deleteById(id);
-        return ResponseEntity.ok().build();
     }
 
     @Override
@@ -39,15 +56,13 @@ public class ExpenseServiceImpl implements ExpenseService {
     }
 
     @Override
-    public ResponseEntity<?> addExpense(Expense expense) {
+    public void addExpense(Expense expense) {
         expenseRepository.findByTitle(expense.getTitle())
                 .map(expenseDb -> {
                     expenseDb.setSum(expenseDb.getSum() + expense.getSum());
-                    return ResponseEntity.ok().body(expenseRepository.save(expenseDb));
+                    return expenseRepository.save(expenseDb);
                 }).orElseGet(() -> {
-            expenseRepository.save(expense);
-            return ResponseEntity.ok().build();
+            return expenseRepository.save(expense);
         });
-        return ResponseEntity.ok().build();
     }
 }
