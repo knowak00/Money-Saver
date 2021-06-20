@@ -12,7 +12,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/expense")
 public class ExpenseController {
-    private ExpenseService expenseService;
+    private final ExpenseService expenseService;
 
     public ExpenseController(ExpenseService expenseService) {
         this.expenseService = expenseService;

@@ -2,7 +2,6 @@ package com.example.demo.service;
 
 import com.example.demo.controller.dto.ExpenseResponse;
 import com.example.demo.model.Expense;
-import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 

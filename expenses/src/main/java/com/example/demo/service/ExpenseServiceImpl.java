@@ -5,7 +5,6 @@ import com.example.demo.exception.ExpenseError;
 import com.example.demo.exception.ExpenseException;
 import com.example.demo.model.Expense;
 import com.example.demo.repository.ExpenseRepository;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -13,7 +12,7 @@ import java.util.List;
 
 @Service
 public class ExpenseServiceImpl implements ExpenseService {
-    private ExpenseRepository expenseRepository;
+    private final ExpenseRepository expenseRepository;
 
     public ExpenseServiceImpl(ExpenseRepository expenseRepository) {
         this.expenseRepository = expenseRepository;
@@ -61,8 +60,6 @@ public class ExpenseServiceImpl implements ExpenseService {
                 .map(expenseDb -> {
                     expenseDb.setSum(expenseDb.getSum() + expense.getSum());
                     return expenseRepository.save(expenseDb);
-                }).orElseGet(() -> {
-            return expenseRepository.save(expense);
-        });
+                }).orElseGet(() -> expenseRepository.save(expense));
     }
 }

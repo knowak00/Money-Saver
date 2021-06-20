@@ -1,11 +1,8 @@
 package com.example.demo.model;
 
 import lombok.*;
-import org.springframework.beans.factory.annotation.Required;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
-import java.util.List;
 
 @Entity
 @Data
