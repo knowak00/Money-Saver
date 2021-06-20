@@ -56,8 +56,7 @@ public class DiscountServiceImpl implements DiscountService {
         int endIndex = content.indexOf("\"", indexTitle + 6);
         if(endIndex<indexTitle+5)
             return null;
-        String title = content.substring(indexTitle + 5, endIndex);
-        return title;
+        return content.substring(indexTitle + 5, endIndex);
     }
 
     private String getPrice(String content) {
@@ -67,8 +66,7 @@ public class DiscountServiceImpl implements DiscountService {
         int endIndex = content.indexOf("</span>", indexPrice + 1 + startLength);
         if(endIndex<indexPrice + startLength)
             return null;
-        String price = content.substring(indexPrice + startLength, endIndex);
-        return price;
+        return content.substring(indexPrice + startLength, endIndex);
     }
 
     private String getDescription(String content) {
@@ -92,11 +90,8 @@ public class DiscountServiceImpl implements DiscountService {
                             .GET()
                             .build(),
                     HttpResponse.BodyHandlers.ofString());
-            String content = (String) response.body();
-            return content;
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
+            return (String) response.body();
+        } catch (IOException | InterruptedException e) {
             e.printStackTrace();
         }
         return null;
