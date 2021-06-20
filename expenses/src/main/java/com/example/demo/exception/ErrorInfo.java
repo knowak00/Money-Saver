@@ -1,7 +1,7 @@
 package com.example.demo.exception;
 
 public class ErrorInfo {
-    private String message;
+    private final String message;
 
     public ErrorInfo(String message) {
         this.message = message;
